@@ -13,7 +13,13 @@ namespace Loto3000.Infrastructure.EntityFrameWork.EntityTypeConfiguration
     {
         public void Configure(EntityTypeBuilder<Draw> builder)
         {
-            
+         builder.HasOne(x => x.Admin)
+                .WithMany(p => p.Draw)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.ClientNoAction);
+         
+               
+
         }
     }
 }

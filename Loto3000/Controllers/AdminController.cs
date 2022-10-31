@@ -1,4 +1,5 @@
-﻿using Loto3000Application.Dto.AdminDto;
+﻿using Loto3000.Domain.Models;
+using Loto3000Application.Dto.AdminDto;
 using Loto3000Application.Dto.UserDto;
 using Loto3000Application.Exeption;
 using Loto3000Application.Services;
@@ -16,19 +17,25 @@ namespace Loto3000.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminService adminServices;
-
-        public AdminController(IAdminService adminServices)
+        private readonly Serilog.ILogger logger;
+        public AdminController(IAdminService adminServices, Serilog.ILogger logger)
         {
             this.adminServices = adminServices;
+            this.logger = logger;
+            logger.Debug("");
+            logger.Information("");
+            logger.Warning("");
+            logger.Error("");
         }
 
-       
+
         [Authorize(Roles = "Administrator")]
         [HttpPost("createAdmin")]
         public ActionResult CreateAdmin(CreateAdminDto model)
         {
             if (!ModelState.IsValid)
             {
+                logger.Error("Information doesnt match");
                 return BadRequest(ModelState);
             }
             var adminModel = adminServices.CreateAdmin(model);
@@ -66,8 +73,9 @@ namespace Loto3000.Controllers
                 adminServices.DeleteAdmin(adminId);
                 return Ok();
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
+                logger.Warning($"Its something wrong for {adminId} admin {new ClaimsPrincipalWrapper(User).Id}", ex);
                 return NotFound();
             }
            
@@ -83,6 +91,7 @@ namespace Loto3000.Controllers
             }
             catch (NotFoundException)
             {
+                logger.Debug("information doesnt match");
                 return NotFound();
             }
         }

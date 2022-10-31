@@ -9,12 +9,23 @@ namespace Loto3000.Infrastructure.EntityFrameWork.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.Property(p => p.Email)
-                .HasMaxLength(512)
-                .IsRequired();
+                             .HasMaxLength(100)
+                             .IsRequired();
             builder.Property(p => p.Password)
-                .HasMaxLength(1000)
-                .IsRequired();
+                              .HasMaxLength(50)
+                              .IsRequired();
+            builder.Property(p => p.Username)
+                             .HasMaxLength(100)
+                             .IsRequired();
+            builder.Property(p => p.FirstName)
+                            .HasMaxLength(100)
+                            .IsRequired();
+            builder.Property(p => p.LastName)
+                            .HasMaxLength(100)
+                            .IsRequired();
            
+                            
+
         }
     }
 }

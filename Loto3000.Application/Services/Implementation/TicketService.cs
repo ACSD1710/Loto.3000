@@ -14,13 +14,14 @@ namespace Loto3000Application.Services.Implementation
         private readonly IRepository<Admin> adminRepository;
         private readonly IRepository<Ticket> ticketRepository;
         private readonly IRepository<Draw> drawRepository;
-        private readonly IPasswordHasher passordHasher;
+        
         public TicketService(IRepository<User> userRepository, IRepository<Ticket> ticketRepository,
-                                                                IPasswordHasher passordHasher, IRepository<Draw> drawRepository, IRepository<Admin> adminRepository)
+                                                                   IRepository<Draw> drawRepository,
+                                                                IRepository<Admin> adminRepository)
         {
             this.userRepository = userRepository;
             this.ticketRepository = ticketRepository;
-            this.passordHasher = passordHasher;
+            
             this.drawRepository = drawRepository;
             this.adminRepository = adminRepository;
         }

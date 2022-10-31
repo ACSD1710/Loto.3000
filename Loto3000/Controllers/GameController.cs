@@ -16,9 +16,15 @@ namespace Loto3000.Controllers
     public class GameController : ControllerBase
     {
         private readonly IGameService gameService;
-        public GameController(IGameService gameService)
+        private readonly Serilog.ILogger logger;
+        public GameController(IGameService gameService, Serilog.ILogger logger)
         {
             this.gameService = gameService;
+            this.logger = logger;
+            logger.Debug("");
+            logger.Information("");
+            logger.Warning("");
+            logger.Error("");
         }
         [Authorize(Roles = "Administrator")]
         [HttpPost("create-game")]
@@ -30,12 +36,14 @@ namespace Loto3000.Controllers
                 var game = gameService.CreateGame(adminId);
                 return Created("api/loto/game/createdGame", game);  
             }
-            catch(NotFoundException)
+            catch(NotFoundException ex)
             {
+                logger.Warning($"Its something wrong for {adminId} admin {new ClaimsPrincipalWrapper(User).Id}", ex);
                 return NotFound();  
             }
-            catch (ValidationException)
+            catch (ValidationException ex)
             {
+                logger.Warning($"Its something wrong for Drow ", ex);
                 return BadRequest();
             }
         }
@@ -49,12 +57,14 @@ namespace Loto3000.Controllers
                 var prizes = gameService.Prizes(adminId);
                 return prizes.ToList();
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
+                logger.Warning($"Its something wrong for {adminId} admin {new ClaimsPrincipalWrapper(User).Id}", ex);
                 return NotFound();
             }
-            catch (ValidationException)
+            catch (ValidationException ex)
             {
+                logger.Warning($"Its something wrong for Drow ", ex);
                 return BadRequest();
             }
         }

@@ -16,9 +16,15 @@ namespace Loto3000.Controllers
     public class DrawController : ControllerBase
     {
         private readonly IDrawService drawService;
-        public DrawController(IDrawService drawService)
+        private readonly Serilog.ILogger logger;
+        public DrawController(IDrawService drawService, Serilog.ILogger logger)
         {
             this.drawService = drawService;
+            this.logger = logger;
+            logger.Debug("");
+            logger.Information("");
+            logger.Warning("");
+            logger.Error("");
         }
 
         [Authorize(Roles = "Administrator")]
@@ -31,8 +37,9 @@ namespace Loto3000.Controllers
                 var draw = drawService.CreateDrow(adminId);
                 return Created("api/lotto/draw/createDrow", draw);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
+                logger.Warning($"Its something wrong for {adminId} admin {new ClaimsPrincipalWrapper(User).Id}", ex);
                 return NotFound();
             }
             
@@ -48,8 +55,9 @@ namespace Loto3000.Controllers
                 var draws = drawService.GetAll(adminId);
                 return Ok(draws);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
+                logger.Warning($"Its something wrong for {adminId} admin {new ClaimsPrincipalWrapper(User).Id}", ex);
                 return NotFound();
             }
 
@@ -64,8 +72,9 @@ namespace Loto3000.Controllers
                 drawService.DeleteActiveDrow(adminId);
                 return Ok();
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
+                logger.Warning($"Its something wrong for {adminId} admin {new ClaimsPrincipalWrapper(User).Id}", ex);
                 return NotFound();
             }
             

@@ -1,8 +1,6 @@
 ﻿using Loto3000Application.Dto.UserDto;
 using Loto3000Application.Exeption;
 using Loto3000Application.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -16,10 +14,16 @@ namespace Loto3000.Controllers
     {
       
         private readonly IUserService userServices;
+        private readonly Serilog.ILogger logger;
 
-        public UserController(IUserService userServices)
+        public UserController(IUserService userServices, Serilog.ILogger logger)
         {
             this.userServices = userServices;
+            this.logger = logger;
+            logger.Debug("");
+            logger.Information("");
+            logger.Warning("");
+            logger.Error("");
         }
 
         [AllowAnonymous]
@@ -28,6 +32,7 @@ namespace Loto3000.Controllers
         {
             if (!ModelState.IsValid)
             {
+                logger.Error("Data doesnt match");
                 return BadRequest(ModelState);
             }
             try
@@ -35,8 +40,9 @@ namespace Loto3000.Controllers
                 var userModel = userServices.CreateUser(model);
                 return Created("api/loto/user/login", userModel);
             }
-            catch(ValidationException)
+            catch(ValidationException ex)
             {
+                logger.Warning($"Its something wrong for user", ex);
                 return BadRequest();
             }
                 
@@ -56,12 +62,14 @@ namespace Loto3000.Controllers
                 userServices.ChangePassword(model, userId);
                 return Ok();
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
+                
                 return NotFound();
             }
-            catch (ValidationException)
+            catch (ValidationException ex)
             {
+                
                 return BadRequest();
             }
             
@@ -78,16 +86,18 @@ namespace Loto3000.Controllers
             }
             try
             {
-                userServices.UpdateUser(model, Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                userServices.UpdateUser(model, userId);
                 return Ok();
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
+                logger.Warning($"Its something wrong for {userId} user{new ClaimsPrincipalWrapper(User).Id}", ex);
                 return NotFound();
             }
-            catch (ValidationException)
+            catch (ValidationException ex)
             {
-               return BadRequest();
+                logger.Warning($"User must be older than 18 years{new ClaimsPrincipalWrapper(User).Name}", ex);
+                return BadRequest();
             }
            
 
@@ -102,8 +112,9 @@ namespace Loto3000.Controllers
                 userServices.DeleteUser(userId);
                 return Ok();
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
+                logger.Warning($"User with this {userId} doesn't exists{new ClaimsPrincipalWrapper(User).Id}", ex);
                 return BadRequest();
             }
             
@@ -129,6 +140,9 @@ namespace Loto3000.Controllers
         public ActionResult BuyCredits (UserBuyCreditsDto model)
         {
             int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            logger.Error("Its somethis wring with card data");
+
             if (model is null)
             {
                 return BadRequest(model);
@@ -138,12 +152,14 @@ namespace Loto3000.Controllers
                 var massage = userServices.BuyCredits(model, userId);
                 return Ok(massage);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
+                logger.Warning($"User With this {userId} {new ClaimsPrincipalWrapper(User).Id}", ex);
                 return NotFound();
             }
             catch (ValidationException)
             {
+                logger.Error("You have to fill all fields");
                 return BadRequest();
             }
 
@@ -159,6 +175,7 @@ namespace Loto3000.Controllers
             }
             catch (NotFoundException)
             {
+                logger.Debug("information doesnt match");
                 return NotFound();
             }
         }

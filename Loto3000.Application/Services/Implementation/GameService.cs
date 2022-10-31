@@ -16,13 +16,12 @@ namespace Loto3000Application.Services.Implementation
         private readonly IRepository<Draw> drawRepository;
         private readonly IRepository<Game> gameRepository;
         private readonly IRepository<Ticket> ticketRepository;
-        private readonly IPasswordHasher passwordHasher;
+        
 
-        public GameService(IRepository<Admin> adminRepository, IPasswordHasher passwordHusher, IRepository<Draw> drawRepository,
+        public GameService(IRepository<Admin> adminRepository, IRepository<Draw> drawRepository,
                                             IRepository<Game> gameRepository, IRepository<Ticket> ticketRepository)
         {
             this.adminRepository = adminRepository;
-            this.passwordHasher = passwordHusher;
             this.drawRepository = drawRepository;
             this.gameRepository = gameRepository;
             this.ticketRepository = ticketRepository;

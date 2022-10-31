@@ -9,11 +9,9 @@ namespace Loto3000.Infrastructure.EntityFrameWork.EntityTypeConfiguration
     {
         public void Configure(EntityTypeBuilder<Draw> builder)
         {
-            //builder.HasMany(x => x.Tickets)
-            //    .WithOne(x => x.Draw)
-            //    .IsRequired()
-            //    .OnDelete(DeleteBehavior.Restrict);
             
+               
+
         }
     }
 }

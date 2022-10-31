@@ -18,9 +18,15 @@ namespace Loto3000.Controllers
     public class TicketController : ControllerBase
     {
         private readonly ITicketService ticketService;
-        public TicketController(ITicketService ticketService)
+        private readonly Serilog.ILogger logger;
+        public TicketController(ITicketService ticketService, Serilog.ILogger logger)
         {
             this.ticketService = ticketService;
+            this.logger = logger;
+            logger.Debug("");
+            logger.Information("");
+            logger.Warning("");
+            logger.Error("");
         }
 
         [Authorize(Roles = "User")]
@@ -35,8 +41,9 @@ namespace Loto3000.Controllers
                 var ticket = ticketService.CreateTicket(combination, userId);
                 return Created("api/loto/ticket/createdTicket", ticket);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
+                logger.Warning($"Ticket something not found", ex);
                 return NotFound();
             }
             
@@ -51,8 +58,9 @@ namespace Loto3000.Controllers
                 var tickets = ticketService.GetAll(adminId).ToList();
                 return Ok(tickets);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
+                logger.Warning($"Its something wrong for {adminId} admin {new ClaimsPrincipalWrapper(User).Id}", ex);
                 return NotFound();
             }
         }
@@ -66,8 +74,9 @@ namespace Loto3000.Controllers
                 var tickets = ticketService.GetAllActive(adminId);
                 return Ok(tickets);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
+                logger.Warning($"Its something wrong for {adminId} admin {new ClaimsPrincipalWrapper(User).Id}", ex);
                 return NotFound();
             }
         }
