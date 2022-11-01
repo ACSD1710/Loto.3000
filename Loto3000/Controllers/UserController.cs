@@ -59,7 +59,7 @@ namespace Loto3000.Controllers
             }
             try
             {
-                userServices.ChangePassword(model, userId);
+                userServices.ChangeUserPassword(model, userId);
                 return Ok();
             }
             catch (NotFoundException ex)
@@ -149,7 +149,7 @@ namespace Loto3000.Controllers
             }
             try
             {
-                var massage = userServices.BuyCredits(model, userId);
+                var massage = userServices.BuyCreditsFromUser(model, userId);
                 return Ok(massage);
             }
             catch (NotFoundException ex)
@@ -170,7 +170,7 @@ namespace Loto3000.Controllers
         {
             try
             {
-                var token = userServices.Authenticate(model);
+                var token = userServices.AuthenticateUser(model);
                 return Ok(token.Token);
             }
             catch (NotFoundException)

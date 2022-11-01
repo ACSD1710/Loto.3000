@@ -38,7 +38,7 @@ namespace Loto3000.Controllers
             try 
             {
 
-                var ticket = ticketService.CreateTicket(combination, userId);
+                var ticket = ticketService.CreateTicketFromUser(combination, userId);
                 return Created("api/loto/ticket/createdTicket", ticket);
             }
             catch (NotFoundException ex)
@@ -55,7 +55,7 @@ namespace Loto3000.Controllers
             int adminId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             try
             {
-                var tickets = ticketService.GetAll(adminId).ToList();
+                var tickets = ticketService.GetAllTicketFromAdmin(adminId).ToList();
                 return Ok(tickets);
             }
             catch (NotFoundException ex)
@@ -71,7 +71,7 @@ namespace Loto3000.Controllers
             int adminId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             try
             {
-                var tickets = ticketService.GetAllActive(adminId);
+                var tickets = ticketService.GetAllActiveTicketsFromAdmin(adminId);
                 return Ok(tickets);
             }
             catch (NotFoundException ex)

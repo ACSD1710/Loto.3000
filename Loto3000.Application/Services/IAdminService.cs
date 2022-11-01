@@ -11,9 +11,9 @@ namespace Loto3000Application.Services
     public interface IAdminService
     {
         public AdminDto CreateAdmin(CreateAdminDto dto);
-        public void ChangePassword(ChangePassAdmin model, int id);
+        public void ChangeAdminPassword(ChangePassAdmin model, int id);
         public void DeleteAdmin(int id);
-        public TokenDto Authenticate(AdminLoginDto adminDto);
+        public TokenDto AuthenticateAdmin(AdminLoginDto adminDto);
 
 
     }

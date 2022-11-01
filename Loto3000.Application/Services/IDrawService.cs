@@ -12,8 +12,8 @@ namespace Loto3000Application.Services
 {
     public interface IDrawService
     {
-        DrowDto CreateDrow(int id);
-        IEnumerable<DrowDto> GetAll(int id);
+        DrowDto CreateDrowFromAdmin(int id);
+        IEnumerable<DrowDto> GetAllDrow(int id);
         DrowDto DeleteActiveDrow(int id);
         
     }

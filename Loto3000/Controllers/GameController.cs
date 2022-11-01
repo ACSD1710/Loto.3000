@@ -33,7 +33,7 @@ namespace Loto3000.Controllers
             int adminId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             try
             {
-                var game = gameService.CreateGame(adminId);
+                var game = gameService.CreateGameFromAdmin(adminId);
                 return Created("api/loto/game/createdGame", game);  
             }
             catch(NotFoundException ex)
@@ -54,7 +54,7 @@ namespace Loto3000.Controllers
             int adminId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             try
             {
-                var prizes = gameService.Prizes(adminId);
+                var prizes = gameService.WinningPrizesFromUsers(adminId);
                 return prizes.ToList();
             }
             catch (NotFoundException ex)

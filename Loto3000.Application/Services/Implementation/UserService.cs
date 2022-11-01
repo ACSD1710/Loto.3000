@@ -78,7 +78,7 @@ namespace Loto3000Application.Services.Implementation
             repository.Delete(user);
 
         }
-        public void ChangePassword(ChangePasswordDto model, int id)
+        public void ChangeUserPassword(ChangePasswordDto model, int id)
         {
             var user = repository.GetByID(id);
             if (user is null)
@@ -104,7 +104,7 @@ namespace Loto3000Application.Services.Implementation
             }
             return user.ToUserDtoModel();
         }
-        public string BuyCredits(UserBuyCreditsDto model, int id )
+        public string BuyCreditsFromUser(UserBuyCreditsDto model, int id )
         {
             var user = repository.GetByID(id);
             if (user is null)
@@ -121,7 +121,7 @@ namespace Loto3000Application.Services.Implementation
             var massage = $"Оn your account you have + {credits} Credits";
             return massage;
         }
-        public string Login(LoginUserDto model) 
+        public string UserLogin(LoginUserDto model) 
         {
             var user = repository.GetAll().FirstOrDefault(x => x.Username == model.UserName && 
                                                                x.Password == passwordHasher.HashPassword(model.Password)) 
@@ -155,7 +155,7 @@ namespace Loto3000Application.Services.Implementation
 
             return tokenString;
         }
-        public TokenDto Authenticate(LoginUserDto model)
+        public TokenDto AuthenticateUser(LoginUserDto model)
         {
             var user = repository.GetAll().Include(x => x.Tickets).Include(i => i.Roles)
                 .FirstOrDefault(y => y.Username.Equals(model.UserName) &&

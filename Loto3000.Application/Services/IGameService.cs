@@ -11,7 +11,7 @@ namespace Loto3000Application.Services
 {
     public interface IGameService
     {
-        public CreateGameDto CreateGame(int adminId);
-        public IEnumerable<WinningTicketDto> Prizes(int adminId);
+        public CreateGameDto CreateGameFromAdmin(int adminId);
+        public IEnumerable<WinningTicketDto> WinningPrizesFromUsers(int adminId);
     }
 }

@@ -42,7 +42,7 @@ namespace Loto3000Application.Services.Implementation
         }
 
     
-        public void ChangePassword(ChangePassAdmin model, int id)
+        public void ChangeAdminPassword(ChangePassAdmin model, int id)
         {
             var admin = repository.GetByID(id);
             if (admin is null)
@@ -71,7 +71,7 @@ namespace Loto3000Application.Services.Implementation
             
             repository.Delete(admin);
         }
-        public TokenDto Authenticate(AdminLoginDto adminDto)
+        public TokenDto AuthenticateAdmin(AdminLoginDto adminDto)
         {
             var admin = repository.GetAll().Include(i => i.Game).Include(y => y.Draw).Include(z => z.Roles)
                 .FirstOrDefault(x =>

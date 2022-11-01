@@ -27,7 +27,7 @@ namespace Loto3000Application.Services.Implementation
             this.ticketRepository = ticketRepository;
         }
 
-        public CreateGameDto CreateGame(int adminId)
+        public CreateGameDto CreateGameFromAdmin(int adminId)
         {
             var admin = adminRepository.GetByID(adminId);
             if (admin is null)
@@ -62,7 +62,7 @@ namespace Loto3000Application.Services.Implementation
 
         }
 
-        public IEnumerable<WinningTicketDto> Prizes(int adminId)
+        public IEnumerable<WinningTicketDto> WinningPrizesFromUsers(int adminId)
         {
             var admin = adminRepository.GetByID(adminId);
             if (admin is null)

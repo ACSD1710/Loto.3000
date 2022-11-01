@@ -10,9 +10,9 @@ namespace Loto3000Application.Services
     public interface ITicketService
     {
          
-        public TicketDto CreateTicket(CreateCombinationModel combination, int userId);
-        public IEnumerable<TicketDto> GetAll(int adminId);
-        public IEnumerable<TicketDto> GetAllActive(int adminId);
+        public TicketDto CreateTicketFromUser(CreateCombinationModel combination, int userId);
+        public IEnumerable<TicketDto> GetAllTicketFromAdmin(int adminId);
+        public IEnumerable<TicketDto> GetAllActiveTicketsFromAdmin(int adminId);
 
     }
 }

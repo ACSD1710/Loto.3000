@@ -49,7 +49,7 @@ namespace Loto3000.Controllers
             int adminId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             try
             {
-                adminServices.ChangePassword(model, adminId);
+                adminServices.ChangeAdminPassword(model, adminId);
                 return Ok();
             }
             catch (NotFoundException)
@@ -86,7 +86,7 @@ namespace Loto3000.Controllers
         {
             try
             {
-                var token = adminServices.Authenticate(model);
+                var token = adminServices.AuthenticateAdmin(model);
                 return Ok(token.Token);
             }
             catch (NotFoundException)

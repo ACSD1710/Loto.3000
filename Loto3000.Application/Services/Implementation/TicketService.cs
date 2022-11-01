@@ -26,7 +26,7 @@ namespace Loto3000Application.Services.Implementation
             this.adminRepository = adminRepository;
         }
 
-        public TicketDto CreateTicket(CreateCombinationModel combination, int userId)
+        public TicketDto CreateTicketFromUser(CreateCombinationModel combination, int userId)
         {
             var user = userRepository.GetByID(userId);
             if (user == null)
@@ -59,7 +59,7 @@ namespace Loto3000Application.Services.Implementation
             
         }    
 
-      public IEnumerable<TicketDto> GetAll(int adminId)
+      public IEnumerable<TicketDto> GetAllTicketFromAdmin(int adminId)
         {
             var admin = adminRepository.GetByID(adminId);            
             if (admin == null)
@@ -69,7 +69,7 @@ namespace Loto3000Application.Services.Implementation
             return ticketRepository.GetAll().Select(x => x.ToTicketModel()).ToList();
         }
 
-      public IEnumerable<TicketDto> GetAllActive(int adminId)
+      public IEnumerable<TicketDto> GetAllActiveTicketsFromAdmin(int adminId)
         {
             var admin = userRepository.GetByID(adminId);
             if (admin == null)

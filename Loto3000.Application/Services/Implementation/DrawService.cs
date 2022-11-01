@@ -27,7 +27,7 @@ namespace Loto3000Application.Services.Implementation
             this.passordHasher = passordHasher; 
         }
 
-        public DrowDto CreateDrow(int id)
+        public DrowDto CreateDrowFromAdmin(int id)
         {
             var admin = adminRepository.GetByID(id) ?? throw new NotFoundException("Admin Doesn't exist");
 
@@ -47,7 +47,7 @@ namespace Loto3000Application.Services.Implementation
             adminRepository.Update(admin);
             return draw.ToDrawDtoModel();         }
 
-        public IEnumerable<DrowDto> GetAll(int id)
+        public IEnumerable<DrowDto> GetAllDrow(int id)
         {
             var admin = adminRepository.GetByID(id) ?? throw new NotFoundException("Admin Doesn't exist");
             return drowRepository.GetAll().Select(x => x.ToDrawDtoModel()).ToList();

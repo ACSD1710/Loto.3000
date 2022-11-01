@@ -34,7 +34,7 @@ namespace Loto3000.Controllers
             int adminId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             try
             {
-                var draw = drawService.CreateDrow(adminId);
+                var draw = drawService.CreateDrowFromAdmin(adminId);
                 return Created("api/lotto/draw/createDrow", draw);
             }
             catch (NotFoundException ex)
@@ -52,7 +52,7 @@ namespace Loto3000.Controllers
             int adminId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             try
             {
-                var draws = drawService.GetAll(adminId);
+                var draws = drawService.GetAllDrow(adminId);
                 return Ok(draws);
             }
             catch (NotFoundException ex)
